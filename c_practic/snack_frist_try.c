@@ -4,17 +4,17 @@
 #include<math.h>
 #include<time.h>
 
-#define WIDE     //宽度
+#define WIDE 100 //宽度
 #define HIGH 30  //长度
 //一个身体的对象
 struct BODY{
     int X;
     int Y; 
-}；
+};
 struct snack{
     struct BODY body[WIDE*HIGH];
     int size;
-}；
+};
 int main(){
     int i,j;
 for(i=0;i<30;i++){
