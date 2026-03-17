@@ -1,27 +1,22 @@
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
-#include<math.h>
-#include<time.h>
-
-#define WIDE 100 //宽度
-#define HIGH 30  //长度
-//一个身体的对象
-struct BODY{
-    int X;
-    int Y; 
-};
-struct snack{
-    struct BODY body[WIDE*HIGH];
-    int size;
-};
+#include"snake.h"
 int main(){
-    int i,j;
-for(i=0;i<30;i++){
-    for(j=0;j<100;j++){
-        printf("*");
-    }
-    printf("\n");
+
+    srand((unsigned int)time(NULL));//设置随机数种子，需要头文件。srand（stdlib.h）,time(time.h)
 }
-return 0;
+//封装一个函数，完成蛇的初始化
+void init_snake(void){
+    snake.body[0].X=WIDE/2;//初始化了蛇头
+    snake.body[0].Y=HIGH/2;
+
+    snake.body[1].X=WIDE/2-1;//初始化了蛇的第一个身体
+    snake.body[1].Y=HIGH/2;
+
+    snake.size=2;//初始化了蛇的长度
+    return ;
+}
+//封装一个函数，完成食物的初始化
+void init_food(void){
+    food.X=rand()%WIDE;//随机生成食物的X坐标(0~WIDE-1=取余)要种随机数种子？
+    food.Y=rand()%HIGH;//随机生成食物的Y坐标,<stdlib.h>
+    return ;
 }
