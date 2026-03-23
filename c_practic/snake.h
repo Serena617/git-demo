@@ -27,5 +27,5 @@ struct FOOD{
 int score=0;//分数
 //声明函数
 void init_snake(void);
-void init_foood(void);
+void init_food(void);
 #endif
