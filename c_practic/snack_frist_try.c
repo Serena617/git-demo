@@ -4,9 +4,7 @@ int main(){
     srand((unsigned int)time(NULL));//设置随机数种子，需要头文件。srand（stdlib.h）,time(time.h)
     init_snake();//初始化蛇
     init_food();//初始化食物
-    printf("snake:x=%d,y=%d\n",snake.body[0].X,snake.body[0].Y); 
-    printf("snake:x=%d,y=%d\n",snake.body[1].X,snake.body[1].Y); 
-    printf("food:x=%d,y=%d\n",food.X,food.Y);
+    init_UI();//改变光标位置
 }
 //封装一个函数，完成蛇的初始化
 void init_snake(void){
