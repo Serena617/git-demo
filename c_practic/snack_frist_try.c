@@ -23,3 +23,27 @@ void init_food(void){
     food.Y=rand()%HIGH;//随机生成食物的Y坐标,<stdlib.h>
     return ;
 }
+//封装一个函数，完成初始化界面控件
+void init_UI(void){
+    COORD coord={0,0};//表示光标移动的位置
+    //画蛇
+    for(int i=0;i<snake.size;i++){
+    coord.X=snake.body[i].X;
+    coord.Y=snake.body[i].Y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+    if(i==0){
+        printf("@");//蛇头
+    }
+    else{
+        printf("o");//蛇身体
+    }}
+    //画食物
+    coord.X=food.X;
+    coord.Y=food.Y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+    printf("X");
+//将光标移动到不干扰游戏的位置
+    coord.X=0;
+    coord.Y=HIGH+2;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+}

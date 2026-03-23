@@ -26,27 +26,7 @@ struct FOOD{
 	int Y;
 	}food;//一个食物对象
 int score=0;//分数
-//初始化界面控件
-void init_UI(void){
-    COORD coord={0,0};//表示光标移动的位置
-    //画蛇
-    for(int i=0;i<snake.size;i++){
-    coord.X=snake.body[i].X;
-    coord.Y=snake.body[i].Y;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
-    if(i==0){
-        printf("@");//蛇头
-    }
-    else{
-        printf("o");//蛇身体
-    }}
-    //画食物
-    coord.X=food.X;
-    coord.Y=food.Y;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
-    printf("X");//食物
 
-}
 //声明函数
 void init_snake(void);
 void init_food(void);
