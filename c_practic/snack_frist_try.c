@@ -1,10 +1,15 @@
 #include"snake.h"
+#include<stdio.h>
 int main(){
 
     srand((unsigned int)time(NULL));//设置随机数种子，需要头文件。srand（stdlib.h）,time(time.h)
+    
     init_snake();//初始化蛇
     init_food();//初始化食物
     init_UI();//改变光标位置
+    start_game();//开始游戏
+    
+    
 }
 //封装一个函数，完成蛇的初始化
 void init_snake(void){
@@ -32,18 +37,88 @@ void init_UI(void){
     coord.Y=snake.body[i].Y;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
     if(i==0){
-        printf("@");//蛇头
+        putchar('@');//蛇头
     }
     else{
-        printf("o");//蛇身体
+        putchar('o');//蛇身体
     }}
     //画食物
     coord.X=food.X;
     coord.Y=food.Y;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
-    printf("X");
-//将光标移动到不干扰游戏的位置
-    coord.X=0;
-    coord.Y=HIGH+2;
+    printf("X\n");
+//将光标移动到不干扰游戏的位置(太大的话回回到x的下方)
+    coord.X=WIDE+5;
+    coord.Y=0;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+    init_wall();
+}
+//开始游戏
+void start_game(void){
+    while(snake.body[0].X>=0&&snake.body[0].X<WIDE&&snake.body[0].Y>=0&&snake.body[0].Y<HIGH){//判断蛇头是否越界
+        char ch = 'd'; // 默认向右
+        int kx=1,ky=0;
+        if(kbhit()){//如果有键盘输入
+        ch=getch(); // 获取输入的字符
+        }
+            //根据输入的字符改变蛇头的坐标
+
+            switch(ch){
+                case 'w':
+                   kx=0;ky=-1;
+                    break;
+                case 's':
+                    kx=0;ky=+1;
+                    break;
+                case 'a':
+                    kx=-1;ky=0;
+                    break;
+                case 'd':
+                    kx=+1;ky=0;
+                    break;
+                default:
+                    break;
+            }
+        
+        
+        //判断蛇头是否和身体相撞
+        for(int i=1;i<snake.size;i++){
+                if(snake.body[0].X==snake.body[i].X&&snake.body[0].Y==snake.body[i].Y)
+                    return ;
+            }
+         //蛇头和食物的碰撞
+        if(snake.body[0].X==food.X&&snake.body[0].Y==food.Y){
+                snake.size++;//蛇的长度加1
+                init_food();//食物消失同时产生一个新事物=再调用一次函数
+                    score++;
+                }
+        //蛇移动，前一节身体给后一节身体赋值
+        //更新蛇身体的位置
+        for(int i=snake.size-1;i>0;i--){
+            snake.body[i]=snake.body[i-1];
+        }
+        snake.body[0].X+=kx;
+        snake.body[0].Y+=ky;
+        //清屏
+        system("cls");//去除蛇尾
+        init_UI();
+        Sleep(250);//控制游戏速度，单位是毫秒
+    }
+    return;//循环已退出，游戏结束
+}
+void init_wall(void){
+    //底部
+    for(int i=0;i<WIDE;i++){
+        COORD coord={i,HIGH-1};
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+        putchar('-');
+    }
+    //右侧
+    for(int i=0;i<HIGH;i++){
+        COORD coord={WIDE-1,i};
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+        putchar('|');
+    }
+
+
 }

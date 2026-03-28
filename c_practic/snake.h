@@ -31,4 +31,5 @@ int score=0;//分数
 void init_snake(void);
 void init_food(void);
 void init_UI(void);
+void start_game(void);
 #endif
