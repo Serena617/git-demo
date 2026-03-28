@@ -3,7 +3,7 @@
 int main(){
 
     srand((unsigned int)time(NULL));//设置随机数种子，需要头文件。srand（stdlib.h）,time(time.h)
-    
+    init_wall();//初始化墙壁
     init_snake();//初始化蛇
     init_food();//初始化食物
     init_UI();//改变光标位置
@@ -51,7 +51,7 @@ void init_UI(void){
     coord.X=WIDE+5;
     coord.Y=0;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
-    init_wall();
+    //init_wall();
 }
 //开始游戏
 void start_game(void){
@@ -92,6 +92,8 @@ void start_game(void){
                 init_food();//食物消失同时产生一个新事物=再调用一次函数
                     score++;
                 }
+int last_X=snake.body[snake.size-1].X;
+int last_Y=snake.body[snake.size-1].Y;
         //蛇移动，前一节身体给后一节身体赋值
         //更新蛇身体的位置
         for(int i=snake.size-1;i>0;i--){
@@ -100,7 +102,11 @@ void start_game(void){
         snake.body[0].X+=kx;
         snake.body[0].Y+=ky;
         //清屏
-        system("cls");//去除蛇尾
+       // system("cls");//去除蛇尾plan1
+        //plan2
+COORD coord={last_X,last_Y};
+SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+putchar(' ');//用空格覆盖蛇尾
         init_UI();
         Sleep(250);//控制游戏速度，单位是毫秒
     }
