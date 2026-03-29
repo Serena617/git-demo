@@ -26,6 +26,7 @@ struct FOOD{
 	int Y;
 	}food;//一个食物对象
 int score=0;//分数
+int Sleepsecond=250;//控制游戏速度，单位是毫秒
 
 //声明函数
 void init_snake(void);

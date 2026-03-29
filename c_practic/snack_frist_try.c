@@ -1,6 +1,9 @@
 #include"snake.h"
 #include<stdio.h>
 int main(){
+    system("chcp 65001");//设置控制台输出编码为UTF-8，解决中文乱码问题
+    CONSOLE_CURSOR_INFO cci={1,0};//设置光标属性，1表示光标大小，0表示隐藏光标
+    SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE),&cci);//设置控制台光标属性，去除光标
 
     srand((unsigned int)time(NULL));//设置随机数种子，需要头文件。srand（stdlib.h）,time(time.h)
     init_wall();//初始化墙壁
@@ -9,7 +12,19 @@ int main(){
     init_UI();//改变光标位置
     start_game();//开始游戏
     
-    
+    // 打印分数，放在底部墙的下面，并使用更好的格式
+    COORD coord = {0, 0};
+    coord.X = 0;          // 从最左侧开始
+    coord.Y = HIGH;       // HIGH-1 是墙，HIGH 是墙下面一行
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+    printf("+------------------------------+\n");
+    printf("|           GAME OVER          |\n");
+    printf("|------------------------------|\n");
+    printf("| 分数: %-22d|", score);
+    printf("|                              |\n");
+    printf("|           菜就多练           |\n");
+    printf("+------------------------------+\n");
+    return 0;
 }
 //封装一个函数，完成蛇的初始化
 void init_snake(void){
@@ -47,10 +62,7 @@ void init_UI(void){
     coord.Y=food.Y;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
     printf("X\n");
-//将光标移动到不干扰游戏的位置(太大的话回回到x的下方)
-    coord.X=WIDE+5;
-    coord.Y=0;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
+
     //init_wall();
 }
 //开始游戏
@@ -88,6 +100,7 @@ void start_game(void){
             }
          //蛇头和食物的碰撞
         if(snake.body[0].X==food.X&&snake.body[0].Y==food.Y){
+                Sleepsecond=Sleepsecond-1;//每吃一个食物，游戏速度增加一点;
                 snake.size++;//蛇的长度加1
                 init_food();//食物消失同时产生一个新事物=再调用一次函数
                     score++;
@@ -108,7 +121,9 @@ COORD coord={last_X,last_Y};
 SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
 putchar(' ');//用空格覆盖蛇尾
         init_UI();
-        Sleep(250);//控制游戏速度，单位是毫秒
+        
+        Sleep(Sleepsecond);
+    
     }
     return;//循环已退出，游戏结束
 }
